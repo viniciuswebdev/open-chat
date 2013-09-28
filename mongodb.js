@@ -20,3 +20,12 @@ var MessageSchema = new Schema({
 });
 
 var Message = mongoose.model("Message", MessageSchema);
+
+app.get('/', function(req, resp){
+	Message.find({}, function(err, rs){
+		total = rs.length;
+		resp.render('lista.ejs', {total:total})
+	});
+});
+
+app.listen(2000);
