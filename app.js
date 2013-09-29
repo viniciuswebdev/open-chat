@@ -1,13 +1,20 @@
 //Setup libs
-var express = require('express');
-var app = express()
 var mongoose = require('mongoose');
 var ejs = require('ejs');
+var path = require('path');
+
+var express = require('express'),
+    app = express()
+  , http = require('http')
+  , server = http.createServer(app).listen(3000)
+  , io = require('socket.io').listen(server);
 
 //Setup configs
+
 app.set('view enginge','ejs');
 app.set('view options',{ layout:false });
 app.use(express.bodyParser());
+app.use(express.static(__dirname + '/public'));
 
 //Setup mongodb
 mongoose.connect("mongodb://localhost/chat");
@@ -21,30 +28,19 @@ var MessageSchema = new Schema({
 
 var Message = mongoose.model("Message", MessageSchema);
 
+io.sockets.on('connection', function (socket) {
+	socket.on('setUsetName', function (data) {
+		socket.set('pseudo', data);
+	});
+	socket.on('message', function (message) {
+		socket.get('pseudo', function (error, name) {
+			var data = { 'message' : message, pseudo : name };
+			socket.broadcast.emit('message', data);
+			console.log("user " + name + " send this : " + message);
+		})
+	});
+});
+
 app.get("/", function(req, resp){
-	Message.find({}, function(err, rs){
-		total = rs.length;
-		resp.render('lista.ejs', {total:total, messages:rs })
-	});
+	resp.render('chat.ejs')		
 });
-
-app.post("/new", function(req, resp){
-	message = new Message();
-	message.message = req.body.message;
-	message.save(function(err){
-		console.log(err);
-	});
-
-	resp.redirect('/');
-});
-
-app.get("/delete/:id", function(req, resp){
-	Message.find({_id:req.params.id }, function(err, reg){
-		reg[0].remove(function(){
-			resp.redirect('/');
-		});
-	});
-});
-
-
-app.listen(2000);
