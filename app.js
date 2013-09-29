@@ -43,5 +43,9 @@ io.sockets.on('connection', function (socket) {
 });
 
 app.get("/", function(req, resp){
+	resp.render('home.ejs')		
+});
+
+app.get("/:room", function(req, resp){
 	resp.render('chat.ejs')		
 });
