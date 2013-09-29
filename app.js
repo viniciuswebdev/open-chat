@@ -5,7 +5,7 @@ var ejs = require('ejs');
 var express = require('express'),
     app = express()
   , http = require('http')
-  , server = http.createServer(app).listen(3000)
+  , server = http.createServer(app).listen(process.env.PORT || 5000)
   , io = require('socket.io').listen(server);
 
 //Setup configs
