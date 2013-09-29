@@ -83,6 +83,7 @@ p{
 	border-top: 1px solid #ccc;
 	box-shadow: 1px 2px 9px -1px #ccc;
 	border-radius: 10px 0px 0px 0px;
+	padding-top: 20px;	
 }
 
 .container .content .chat .entries{
@@ -95,6 +96,7 @@ p{
 	border-radius: 0px 10px 0px 0px;
 	overflow: scroll;
 	overflow-x: hidden;
+	padding-top: 20px;
 }
 
 .container .content .chat .entries .message{

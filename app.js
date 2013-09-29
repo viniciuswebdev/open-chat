@@ -30,10 +30,20 @@ var Message = mongoose.model("Message", MessageSchema);
 */
 
 
+app.get("/", function(req, resp){
+	resp.render('home.ejs')		
+});
+
+app.get("/:room", function(req, resp){
+	resp.render('chat.ejs')		
+});
+
+var onlineUsers = new Array();
 io.sockets.on('connection', function (socket) {
 	socket.join('room1');
 	socket.on('setUsetName', function (data) {
 		socket.set('pseudo', data);
+		socket.broadcast.to('room1').emit('user', data);
 	});
 	socket.on('message', function (message) {
 		socket.get('pseudo', function (error, name) {
@@ -42,12 +52,4 @@ io.sockets.on('connection', function (socket) {
 			console.log("user " + name + " send this : " + message);
 		})
 	});
-});
-
-app.get("/", function(req, resp){
-	resp.render('home.ejs')		
-});
-
-app.get("/:room", function(req, resp){
-	resp.render('chat.ejs')		
 });
