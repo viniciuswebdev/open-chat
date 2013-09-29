@@ -21,7 +21,9 @@ function setDefaultName(){
 }
 
 function addMessage(msg) {
-	$("#entries").append('<div class="message">' + '<p class="text">'  + UserName + ' : ' + msg + '</p></div>');
+	var entries = $("#entries");
+	entries.append('<div class="message">' + '<p class="text">'  + UserName + ' : ' + msg + '</p></div>');
+	entries.scrollTop(entries[0].scrollHeight);
 }
 
 function sendMessage() {
