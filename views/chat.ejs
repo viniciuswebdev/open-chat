@@ -1,15 +1,20 @@
 <% include top %>
   <div class="container">
     <div class="content">
-
-      <input type="text" id="userNameInput">
-      <button id="setUserNameButton">Set Pseudo</button>
-
-      <div id="entries"></div>
-
-      <div id="controll">
-        <input type="text" id="messageInput">
-        <button id="submitMessageButton">Send</button>
+      <div id="userNameArea">
+        <input type="text" id="userNameInput">
+        <button id="setUserNameButton">Set Pseudo</button>
+      </div>
+      <div class="chat" id="chat">
+        <div class="contact-list">
+          <h4>Vinicius</h4>
+        </div>  
+        <div class="entries" id="entries">
+        </div>
+        <div class="controll" id="controll">
+              <textarea class="messaging" type="text" id="messageInput"></textarea>
+          </div>
+        <div>
       </div>
     </div>
   </div>
