@@ -1,7 +1,6 @@
 //Setup libs
 var mongoose = require('mongoose');
 var ejs = require('ejs');
-var path = require('path');
 
 var express = require('express'),
     app = express()
@@ -17,6 +16,7 @@ app.use(express.bodyParser());
 app.use(express.static(__dirname + '/public'));
 
 //Setup mongodb
+/*
 mongoose.connect("mongodb://localhost/chat");
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
@@ -27,6 +27,8 @@ var MessageSchema = new Schema({
 });
 
 var Message = mongoose.model("Message", MessageSchema);
+*/
+
 
 io.sockets.on('connection', function (socket) {
 	socket.join('room1');

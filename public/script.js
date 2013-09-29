@@ -3,8 +3,15 @@ var UserName;
 
 $(function() {
 	setDefaultName();
+	$("#userNameArea").hide();
 	$("#setUserNameButton").click(function() {setUsetName()});
-	$("#submitMessageButton").click(function() {sendMessage();});
+	$("#messageInput").keypress(function(e) {
+		var code = (e.keyCode ? e.keyCode : e.which);
+		if(code == 13) {
+			e.preventDefault()
+			sendMessage();
+		}
+	});
 });
 
 function setDefaultName(){
@@ -14,7 +21,7 @@ function setDefaultName(){
 }
 
 function addMessage(msg) {
-	$("#entries").append('<div class="message"><p>' + UserName + ' : ' + msg + '</p></div>');
+	$("#entries").append('<div class="message">' + '<p class="text">'  + UserName + ' : ' + msg + '</p></div>');
 }
 
 function sendMessage() {
