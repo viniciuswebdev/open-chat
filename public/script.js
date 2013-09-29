@@ -2,39 +2,39 @@ var socket = io.connect();
 var UserName;
 
 $(function() {
-	setFakeName();
-	$("#nameSet").click(function() {setUsetName()});
-	$("#submit").click(function() {sentMessage();});
+	setDefaultName();
+	$("#setUserNameButton").click(function() {setUsetName()});
+	$("#submitMessageButton").click(function() {sendMessage();});
 });
 
-function setFakeName(){
-	var fakeUserName = "User" + Math.floor((Math.random()*100)+1);
-	socket.emit('setUsetName', fakeUserName);
-	UserName = fakeUserName;
+function setDefaultName(){
+	var defaultUserName = "User" + Math.floor((Math.random()*100)+1);
+	socket.emit('setUsetName', defaultUserName);
+	UserName = defaultUserName;
 }
 
-function addMessage(msg, pseudo) {
-	$("#entries").append('<div class="message"><p>' + pseudo + ' : ' + msg + '</p></div>');
+function addMessage(msg) {
+	$("#entries").append('<div class="message"><p>' + UserName + ' : ' + msg + '</p></div>');
 }
 
-function sentMessage() {
-	if ($('#messageInput').val() != "") 
-	{
-		socket.emit('message', $('#messageInput').val());
-		addMessage($('#messageInput').val(), UserName, new Date().toISOString(), true);
-		$('#messageInput').val('');
+function sendMessage() {
+	var messageInput = $('#messageInput');
+	if (messageInput.val() != ""){
+		socket.emit('message', messageInput.val());
+		addMessage(messageInput.val(), new Date().toISOString(), true);
+		messageInput.val('');
 	}
 }
 
 function setUsetName() {
-	if ($("#pseudoInput").val() != "")
-	{
-		var realUserName = $("#pseudoInput").val();
+	var userNameInput = $("#userNameInput");
+	if (userNameInput.val() != ""){
+		var realUserName = userNameInput.val();
 		socket.emit('setUsetName', realUserName);
 		UserName = realUserName;
 		$('#controll').show();
-		$('#pseudoInput').hide();
-		$('#nameSet').hide();
+		userNameInput.hide();
+		$('#setUserNameButton').hide();
 	}
 }
 
