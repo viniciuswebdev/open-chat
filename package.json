@@ -1,0 +1,14 @@
+{
+  "name": "open-chat",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "latest",
+    "mongoose":"latest",
+    "socket.io":"latest",
+    "ejs":"latest"
+  },
+  "engines": {
+    "node": "0.10.x",
+    "npm": "1.2.x"
+  }
+}
