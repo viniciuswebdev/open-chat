@@ -9,24 +9,21 @@ body{
 	margin: 0px;
 }
 
-h3{
-	margin-bottom: .4em;
-	font-size: 2.4em;
+h2, h3{
 	font-weight: 700;
 	text-transform: none;
 	color: #1d183d;
+	margin-bottom: .4em;
+}
+
+h3{
 	margin: 0px;
-	padding: 0px;
+	font-size: 2.4em;
 }
 
 h2{
-	margin-bottom: .4em;
-	font-size: 4.4em;
-	font-weight: 700;
-	text-transform: none;
-	color: #1d183d;
 	margin: 0px;
-	padding: 0px;
+	font-size: 4.4em;
 }
 
 a{
@@ -48,28 +45,33 @@ p{
 	font-weight: 500;
 }
 
-.title-home{
-	color: white;
-}
-
 .header{
 	padding: 10px;
 	background-color: #9073c0;
 	color: white;
 }
 
-.container-content{
+.header .content{
 	width: 980px;
 	margin: 0 auto;
 }
 
-.rooms{
+.header .content .title{
+	color: white;
+}
+
+.container .content{
+	width: 980px;
+	margin: 0 auto;
+}
+
+.container .content .box{
 	padding-top: 20px;
 	float: left;
 	width: 50%;
 }
 
-.room{
+.container .content .box .room{
 	box-shadow: 2px 2px 14px 0px #ccc;
 	margin-top: 5px;
 	width: 90%;
@@ -79,6 +81,6 @@ p{
 	padding: 10px;
 }
 
-.room:hover{
+.container .content .box .room:hover{
 	border: 1px solid rgb(187, 193, 255);
 }
