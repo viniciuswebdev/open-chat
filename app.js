@@ -6,6 +6,7 @@ var mongoose = require('mongoose'),
     server = http.createServer(app).listen(process.env.PORT || 5000),
     io = require('socket.io').listen(server),
     parseCookie = express.cookieParser(),
+    store = require('dirty')('my.db');
 
 app.configure(function () {
   	app.use(parseCookie);
@@ -42,6 +43,9 @@ io.set('authorization', function(handshake, callback) {
 	if (handshake.headers.cookie) {
   		parseCookie(handshake, null, function(err) {
     		handshake.sessionID = handshake.cookies['connect.sid'];
+    		store.set(handshake.sessionID, "User", function(){
+				console.log(store.get(handshake.sessionID));
+    		});
     		console.log(handshake.sessionID);
   		});
   	}
