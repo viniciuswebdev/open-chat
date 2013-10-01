@@ -4,7 +4,8 @@ var mongoose = require('mongoose'),
     app = express(),
     http = require('http'),
     server = http.createServer(app).listen(process.env.PORT || 5000),
-    io = require('socket.io').listen(server);
+    io = require('socket.io').listen(server),
+    parseCookie = express.cookieParser('secret');
 
 app.set('view enginge','ejs');
 app.set('view options',{ layout:false });
@@ -19,7 +20,6 @@ app.get("/:room", function(req, resp){
 	resp.render('chat.ejs')		
 });
 
-var onlineUsers = new Array();
 io.sockets.on('connection', function (socket) {
 	socket.join('room1');
 	socket.on('setUserName', function (data) {
@@ -33,3 +33,22 @@ io.sockets.on('connection', function (socket) {
 		})
 	});
 });
+
+io.set('authorization', function(handshake, callback) {
+	if (handshake.headers.cookie) {
+  		parseCookie(handshake, null, function(err) {
+    		handshake.sessionID = handshake.cookies['connect.sid'];
+    		console.log(handshake.sessionID);
+  		});
+  	}
+  	callback(null, true);
+});
+
+
+
+
+
+
+
+
+
