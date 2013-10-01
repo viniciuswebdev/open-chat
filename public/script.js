@@ -4,7 +4,7 @@ var UserName;
 $(function() {
 	setDefaultName();
 	$("#userNameArea").hide();
-	$("#setUserNameButton").click(function() {setUsetName()});
+	$("#setUserNameButton").click(function() {setUserName()});
 	$("#messageInput").keypress(function(e) {
 		var code = (e.keyCode ? e.keyCode : e.which);
 		if(code == 13) {
@@ -16,7 +16,7 @@ $(function() {
 
 function setDefaultName(){
 	var defaultUserName = "User" + Math.floor((Math.random()*100)+1);
-	socket.emit('setUsetName', defaultUserName);
+	socket.emit('setUserName', defaultUserName);
 	UserName = defaultUserName;
 	addUser(UserName);
 }
@@ -40,11 +40,11 @@ function sendMessage() {
 	}
 }
 
-function setUsetName() {
+function setUserName() {
 	var userNameInput = $("#userNameInput");
 	if (userNameInput.val() != ""){
 		var realUserName = userNameInput.val();
-		socket.emit('setUsetName', realUserName);
+		socket.emit('setUserName', realUserName);
 		UserName = realUserName;
 		$('#controll').show();
 		userNameInput.hide();
