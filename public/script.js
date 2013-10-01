@@ -17,8 +17,6 @@ $(function() {
 function setDefaultName(){
 	var defaultUserName = "User" + Math.floor((Math.random()*100)+1);
 	socket.emit('setUserName', defaultUserName);
-	UserName = defaultUserName;
-	addUser(UserName);
 }
 
 function addMessage(msg, pseudo) {

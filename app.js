@@ -24,7 +24,7 @@ io.sockets.on('connection', function (socket) {
 	socket.join('room1');
 	socket.on('setUserName', function (data) {
 		socket.set('pseudo', data);
-		socket.broadcast.to('room1').emit('user', data);
+		io.sockets.in('room1').emit('user', data);
 	});
 	socket.on('message', function (message) {
 		socket.get('pseudo', function (error, name) {
