@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
     http = require('http'),
     server = http.createServer(app).listen(process.env.PORT || 5000),
     io = require('socket.io').listen(server),
-    parseCookie = express.cookieParser('secret');
+    parseCookie = express.cookieParser();
 
 app.set('view enginge','ejs');
 app.set('view options',{ layout:false });
