@@ -6,7 +6,6 @@ var mongoose = require('mongoose'),
     server = http.createServer(app).listen(process.env.PORT || 5000),
     io = require('socket.io').listen(server),
     parseCookie = express.cookieParser(),
-    MemoryStore = express.session.MemoryStore;
 
 app.configure(function () {
   	app.use(parseCookie);
