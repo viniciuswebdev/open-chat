@@ -5,12 +5,17 @@ var mongoose = require('mongoose'),
     http = require('http'),
     server = http.createServer(app).listen(process.env.PORT || 5000),
     io = require('socket.io').listen(server),
-    parseCookie = express.cookieParser();
+    parseCookie = express.cookieParser(),
+    MemoryStore = express.session.MemoryStore;
 
-app.set('view enginge','ejs');
-app.set('view options',{ layout:false });
-app.use(express.bodyParser());
-app.use(express.static(__dirname + '/public'));
+app.configure(function () {
+  	app.use(parseCookie);
+    app.use(express.session({secret: 'secret', key: 'connect.sid'}));
+	app.set('view enginge','ejs');
+	app.set('view options',{ layout:false });
+	app.use(express.bodyParser());
+	app.use(express.static(__dirname + '/public'));
+});
 
 app.get("/", function(req, resp){
 	resp.render('home.ejs')		
