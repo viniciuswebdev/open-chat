@@ -1,11 +1,10 @@
-var mongoose = require('mongoose');
-var ejs = require('ejs');
-
-var express = require('express'),
-    app = express()
-  , http = require('http')
-  , server = http.createServer(app).listen(process.env.PORT || 5000)
-  , io = require('socket.io').listen(server);
+var mongoose = require('mongoose'),
+	ejs = require('ejs'),
+	express = require('express'),
+    app = express(),
+    http = require('http'),
+    server = http.createServer(app).listen(process.env.PORT || 5000),
+    io = require('socket.io').listen(server);
 
 app.set('view enginge','ejs');
 app.set('view options',{ layout:false });
@@ -31,7 +30,6 @@ io.sockets.on('connection', function (socket) {
 		socket.get('pseudo', function (error, name) {
 			var data = { 'message' : message, pseudo : name };
 			socket.broadcast.to('room1').emit('message', data);
-			console.log("user " + name + " send this : " + message);
 		})
 	});
 });
