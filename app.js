@@ -31,7 +31,7 @@ io.sockets.on('connection', function (socket) {
 		var existingUserName = store.get(socket.handshake.sessionID); 
 		if(existingUserName){
 			socket.set('pseudo', existingUserName);
-			io.sockets.in('room1').emit('user', existingUserName);
+			socket.emit('user', existingUserName);
 		}else{
 			store.set(socket.handshake.sessionID, data);		
 			socket.set('pseudo', data);
