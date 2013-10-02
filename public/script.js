@@ -51,6 +51,7 @@ function setUserName() {
 }
 
 socket.on('user', function(data) {
+	UserName = data;
 	addUser(data);
 });
 

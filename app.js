@@ -28,8 +28,15 @@ app.get("/:room", function(req, resp){
 io.sockets.on('connection', function (socket) {
 	socket.join('room1');
 	socket.on('setUserName', function (data) {
-		socket.set('pseudo', data);
-		io.sockets.in('room1').emit('user', data);
+		var existingUserName = store.get(socket.handshake.sessionID); 
+		if(existingUserName){
+			socket.set('pseudo', existingUserName);
+			io.sockets.in('room1').emit('user', existingUserName);
+		}else{
+			store.set(socket.handshake.sessionID, data);		
+			socket.set('pseudo', data);
+			io.sockets.in('room1').emit('user', data);
+		}
 	});
 	socket.on('message', function (message) {
 		socket.get('pseudo', function (error, name) {
@@ -43,10 +50,6 @@ io.set('authorization', function(handshake, callback) {
 	if (handshake.headers.cookie) {
   		parseCookie(handshake, null, function(err) {
     		handshake.sessionID = handshake.cookies['connect.sid'];
-    		store.set(handshake.sessionID, "User", function(){
-				console.log(store.get(handshake.sessionID));
-    		});
-    		console.log(handshake.sessionID);
   		});
   	}
   	callback(null, true);
