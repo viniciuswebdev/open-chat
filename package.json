@@ -5,7 +5,8 @@
     "express": "latest",
     "mongoose":"latest",
     "socket.io":"latest",
-    "ejs":"latest"
+    "ejs":"latest",
+    "dirty":"latest"
   },
   "engines": {
     "node": "0.10.x",
