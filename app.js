@@ -26,7 +26,6 @@ app.get("/:room", function(req, resp){
 });
 
 io.sockets.on('connection', function (socket) {
-	socket.join('room1');
 	socket.on('setUserName', function (data) {
 		var existingUserName = store.get(socket.handshake.sessionID); 
 		if(existingUserName){
@@ -35,7 +34,7 @@ io.sockets.on('connection', function (socket) {
 		}else{
 			store.set(socket.handshake.sessionID, data);		
 			socket.set('pseudo', data);
-			io.sockets.in('room1').emit('user', data);
+			io.sockets.emit('user', data);
 		}
 	});
 	socket.on('message', function (message) {
