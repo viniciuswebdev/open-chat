@@ -26,6 +26,12 @@ app.get("/:room", function(req, resp){
 });
 
 io.sockets.on('connection', function (socket) {
+	store.forEach(function(key, val) {
+		if(socket.handshake.sessionID != key){
+			socket.emit('adduser', val);
+		}
+    });
+
 	socket.on('setUserName', function (data) {
 		var existingUserName = store.get(socket.handshake.sessionID); 
 		if(existingUserName){
@@ -34,13 +40,14 @@ io.sockets.on('connection', function (socket) {
 		}else{
 			store.set(socket.handshake.sessionID, data);		
 			socket.set('pseudo', data);
-			io.sockets.emit('user', data);
+			socket.emit('user', data);
+			socket.broadcast.emit('adduser', data);
 		}
 	});
 	socket.on('message', function (message) {
 		socket.get('pseudo', function (error, name) {
 			var data = { 'message' : message, pseudo : name };
-			socket.broadcast.to('room1').emit('message', data);
+			socket.broadcast.emit('message', data);
 		})
 	});
 });

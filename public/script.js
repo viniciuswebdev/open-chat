@@ -51,9 +51,15 @@ function setUserName() {
 }
 
 socket.on('user', function(data) {
+	alert(data);
 	UserName = data;
 	addUser(data);
 });
+
+socket.on('adduser', function(data) {
+	addUser(data);
+});
+
 
 socket.on('message', function(data) {
 	addMessage(data['message'], data['pseudo']);
