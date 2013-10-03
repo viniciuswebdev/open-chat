@@ -26,30 +26,7 @@ app.get("/:room", function(req, resp){
 });
 
 io.sockets.on('connection', function (socket) {
-	store.forEach(function(key, val) {
-		if(socket.handshake.sessionID != key){
-			socket.emit('adduser', val);
-		}
-    });
 
-	socket.on('setUserName', function (data) {
-		var existingUserName = store.get(socket.handshake.sessionID); 
-		if(existingUserName){
-			socket.set('pseudo', existingUserName);
-			socket.emit('user', existingUserName);
-		}else{
-			store.set(socket.handshake.sessionID, data);		
-			socket.set('pseudo', data);
-			socket.emit('user', data);
-			socket.broadcast.emit('adduser', data);
-		}
-	});
-	socket.on('message', function (message) {
-		socket.get('pseudo', function (error, name) {
-			var data = { 'message' : message, pseudo : name };
-			socket.broadcast.emit('message', data);
-		})
-	});
 });
 
 io.set('authorization', function(handshake, callback) {
