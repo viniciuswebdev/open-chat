@@ -1,2 +1,2 @@
-get out of here
+open chat
 =========
