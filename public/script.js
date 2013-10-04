@@ -3,9 +3,6 @@ var UserName;
 
 $(function() {
 	connectUser();
-
-	$("#userNameArea").hide();
-	$("#setUserNameButton").click(function() {setUserName()});
 	$("#messageInput").keypress(function(e) {
 		var code = (e.keyCode ? e.keyCode : e.which);
 		if(code == 13) {
@@ -37,13 +34,8 @@ socket.on('deleteUser', function(socket) {
 });
 
 socket.on('message', function(data) {
-	addMessage(data['message'], data['name']);
+	addMessage(data['message'], data['name'], false);
 });
-
-function addSelfUser(user, socket) {
-	UserName = user;
-	$('<div id="' + socket +'" class="user"><h4>' + user + '</h4></div>').appendTo("#contact-list").hide().fadeIn(1000);
-}
 
 function addUser(user, socket) {
 	$('<div id="' + socket +'" class="user"><h4>' + user + '</h4></div>').appendTo("#contact-list").hide().fadeIn(1000);
@@ -55,9 +47,10 @@ function deleteUser(socket) {
     });
 }
 
-function addMessage(msg, pseudo) {
+function addMessage(msg, pseudo, self) {
 	var entries = $("#entries");
-	entries.append('<div class="message">' + '<p class="text">'  + pseudo + ' : ' + msg + '</p></div>');
+	selfStyle = (self) ? 'self' : '';
+	entries.append('<div class="message ' + selfStyle + '">' + '<p class="text">'  + pseudo + ' : ' + msg + '</p></div>');
 	entries.scrollTop(entries[0].scrollHeight);
 }
 
@@ -65,7 +58,7 @@ function sendMessage() {
 	var messageInput = $('#messageInput');
 	if (messageInput.val() != ""){
 		socket.emit('message', messageInput.val());
-		addMessage(messageInput.val(), UserName, new Date().toISOString(), true);
+		addMessage(messageInput.val(), UserName, true);
 		messageInput.val('');
 	}
 }

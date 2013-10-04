@@ -108,6 +108,9 @@ p{
 	margin-left: 20px;
 }
 
+.container .content .chat .entries .self{
+	color: rgba(85, 26, 139, 1);
+}
 .container .content .chat .message .text{
 	margin: 0px;
 }
