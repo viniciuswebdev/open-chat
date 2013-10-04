@@ -19,6 +19,29 @@ function connectUser(){
 	socket.emit('connect');
 }
 
+socket.on('addUserList', function(data) {
+	data.forEach(function(data){
+		addUser(data.socket, data.socket);
+	});
+});
+
+socket.on('addNewUser', function(data) {
+	addUser(data.socket, data.socket);
+});
+
+socket.on('deleteUser', function(socket) {
+	deleteUser(socket);
+});
+
+
+function addUser(user, socket) {
+	$("#contact-list").append('<h4 id="' + socket +'">' + user + '</h4>');
+}
+
+function deleteUser(socket) {
+	$("#" + socket).remove();
+}
+
 function setDefaultName(){
 	var defaultUserName = "User" + Math.floor((Math.random()*100)+1);
 	socket.emit('setUserName', defaultUserName);
@@ -28,10 +51,6 @@ function addMessage(msg, pseudo) {
 	var entries = $("#entries");
 	entries.append('<div class="message">' + '<p class="text">'  + pseudo + ' : ' + msg + '</p></div>');
 	entries.scrollTop(entries[0].scrollHeight);
-}
-
-function addUser(user) {
-	$("#contact-list").append('<h4>' + user + '</h4>');
 }
 
 function sendMessage() {

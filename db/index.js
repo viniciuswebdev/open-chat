@@ -6,14 +6,20 @@ var ObjectId = Schema.ObjectId;
 var UsersSchema = new Schema({ ref : ObjectId, socket : String, session : String });
 var User = mongoose.model("User", UsersSchema);
 
-mongoose.connection.db.dropDatabase();
-
-var insertUser = function(socket, session){
+var insertUser = function(socket, session, callback){
 	var user = new User();
 	user.socket = socket;
 	user.session = session;
-	user.save();
+	user.save(function(){
+		callback(user);
+	});
 };
+
+var deleteUser = function(socket){
+	User.find({socket : socket}, function(err, reg){
+		reg[0].remove();
+	});
+}
 
 var getUser = function(session, callback){
 	User.find({session : session}, function(err, reg){
@@ -30,8 +36,18 @@ var updateUserSocket = function(socket, session, callback){
 	});
 }
 
+var getAllUsers = function(callback){
+	User.find({}, function(err, reg){
+		callback(reg);
+	});
+}
+
 exports.insertUser = insertUser;
 exports.getUser = getUser;
 exports.updateUserSocket = updateUserSocket;
+exports.getAllUsers = getAllUsers;
+exports.deleteUser = deleteUser;
+
+
 
 
