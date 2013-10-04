@@ -7,6 +7,8 @@ var mongoose = require('mongoose'),
   io = require('socket.io').listen(server),
   parseCookie = express.cookieParser(),
   routes = require('./routes');
+  socket = require('./socket');
+
 
 app.configure(function () {
 	app.use(parseCookie);
@@ -20,28 +22,8 @@ app.configure(function () {
 app.get("/", routes.index);
 app.get("/:room", routes.chat);
 
-io.sockets.on('connection', function (socket) {
-mongoose.connect("mongodb://localhost/chat");
-  var Schema = mongoose.Schema;
-  var ObjectId = Schema.ObjectId;
-
-  var MessageSchema = new Schema({
-    ref : ObjectId,
-    message : String
-  });
-
-  var Message = mongoose.model("Message", MessageSchema);
-});
-
-io.set('authorization', function(handshake, callback) {
-	if (handshake.headers.cookie) {
-  		parseCookie(handshake, null, function(err) {
-    		handshake.sessionID = handshake.cookies['connect.sid'];
-  		});
-  	}
-  	callback(null, true);
-});
-
+io.sockets.on('connection', socket.connection);
+io.set('authorization', socket.authorization);
 
 
 
