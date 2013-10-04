@@ -2,7 +2,8 @@ var socket = io.connect();
 var UserName;
 
 $(function() {
-	setDefaultName();
+	connectUser();
+
 	$("#userNameArea").hide();
 	$("#setUserNameButton").click(function() {setUserName()});
 	$("#messageInput").keypress(function(e) {
@@ -13,6 +14,10 @@ $(function() {
 		}
 	});
 });
+
+function connectUser(){
+	socket.emit('connect');
+}
 
 function setDefaultName(){
 	var defaultUserName = "User" + Math.floor((Math.random()*100)+1);

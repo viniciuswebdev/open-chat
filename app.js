@@ -1,5 +1,4 @@
-var mongoose = require('mongoose'),
-	ejs = require('ejs'),
+var ejs = require('ejs'),
 	express = require('express'),
   app = express(),
   http = require('http'),
