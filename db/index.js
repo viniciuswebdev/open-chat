@@ -17,11 +17,21 @@ var insertUser = function(socket, session){
 
 var getUser = function(session, callback){
 	User.find({session : session}, function(err, reg){
-		console.log(reg.length);
 		callback(reg[0]);
+	});
+}
+
+var updateUserSocket = function(socket, session, callback){
+	User.find({session : session}, function(err, reg){
+		var user = reg[0];
+		user.socket = socket;
+		user.save();
+		callback(user);
 	});
 }
 
 exports.insertUser = insertUser;
 exports.getUser = getUser;
+exports.updateUserSocket = updateUserSocket;
+
 
