@@ -4,7 +4,7 @@ var express = require('express'),
 
 exports.connection = function (socket) {
 	socket.on('disconnect', function () {
-		db.deleteUser(socket.id)
+		db.updateToOut(socket.handshake.sessionId)
 		socket.broadcast.emit('deleteUser', socket.id);
     });
 
@@ -19,8 +19,9 @@ exports.connection = function (socket) {
 				});				
 			}else{
 				if(socket.id != user.socket){
-					db.updateUserSocket(socket.id, user.session, function(user){
-						socket.broadcast.emit('addNewUser', user);
+					db.updateUserSocket(socket.id, user.session, function(newuser){
+						socket.broadcast.emit('deleteUser', user.socket);
+						socket.broadcast.emit('addNewUser', newuser);
 						db.getAllUsers(function(data){
 							socket.emit('addUserList', data);
 						});
