@@ -13,7 +13,6 @@ h2, h3, h4{
 	font-weight: 700;
 	text-transform: none;
 	color: #1d183d;
-	margin-bottom: .4em;
 }
 
 h4{
@@ -45,8 +44,8 @@ h1{
 }
 
 p{
+	font-size: 14px;
 	margin-bottom: 1em;
-	font-size: 1.6em;
 	line-height: 1.6em;
 	font-weight: 500;
 }
@@ -83,7 +82,13 @@ p{
 	border-top: 1px solid #ccc;
 	box-shadow: 1px 2px 9px -1px #ccc;
 	border-radius: 10px 0px 0px 0px;
-	padding-top: 20px;	
+	padding-bottom: 20px;
+}
+
+.container .content .chat .contact-list .user{
+	border: 1px solid rgb(226, 226, 226);
+	margin: 5px 10px 0px 5px;
+	border-radius: 5px;
 }
 
 .container .content .chat .entries{

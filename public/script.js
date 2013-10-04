@@ -20,8 +20,11 @@ function connectUser(){
 }
 
 socket.on('addUserList', function(data) {
-	data.forEach(function(data){
-		addUser(data.name, data.socket);
+	data.users.forEach(function(user){
+		if(user.socket == data.socket){
+			UserName = user.name;
+		}
+		addUser(user.name, user.socket);
 	});
 });
 
@@ -33,18 +36,23 @@ socket.on('deleteUser', function(socket) {
 	deleteUser(socket);
 });
 
+socket.on('message', function(data) {
+	addMessage(data['message'], data['name']);
+});
+
+function addSelfUser(user, socket) {
+	UserName = user;
+	$('<div id="' + socket +'" class="user"><h4>' + user + '</h4></div>').appendTo("#contact-list").hide().fadeIn(1000);
+}
 
 function addUser(user, socket) {
-	$("#contact-list").append('<h4 id="' + socket +'">' + user + '</h4>').fadeIn(999);
+	$('<div id="' + socket +'" class="user"><h4>' + user + '</h4></div>').appendTo("#contact-list").hide().fadeIn(1000);
 }
 
 function deleteUser(socket) {
-	$("#" + socket).remove();
-}
-
-function setDefaultName(){
-	var defaultUserName = "User" + Math.floor((Math.random()*100)+1);
-	socket.emit('setUserName', defaultUserName);
+    $("#" + socket).fadeOut(1000, function() { 
+    	$(this).remove(); 
+    });
 }
 
 function addMessage(msg, pseudo) {
@@ -57,28 +65,7 @@ function sendMessage() {
 	var messageInput = $('#messageInput');
 	if (messageInput.val() != ""){
 		socket.emit('message', messageInput.val());
-		addMessage(messageInput.val(), UserName,new Date().toISOString(), true);
+		addMessage(messageInput.val(), UserName, new Date().toISOString(), true);
 		messageInput.val('');
 	}
 }
-
-function setUserName() {
-	var userNameInput = $("#userNameInput");
-	if (userNameInput.val() != ""){
-		var realUserName = userNameInput.val();
-		socket.emit('setUserName', realUserName);
-		UserName = realUserName;
-		$('#controll').show();
-		userNameInput.hide();
-		$('#setUserNameButton').hide();
-	}
-}
-
-socket.on('user', function(data) {
-	UserName = data;
-	addUser(data);
-});
-
-socket.on('message', function(data) {
-	addMessage(data['message'], data['pseudo']);
-});
