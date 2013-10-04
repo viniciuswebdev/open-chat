@@ -8,8 +8,12 @@ exports.connection = function (socket) {
 			if(!user){
 				db.insertUser(socket.id, socket.handshake.sessionId);
 			}else{
-				console.log(user.socket);
-				console.log(user.session);
+				if(socket.id != user.socket){
+					db.updateUserSocket(socket.id, user.session, function(user){
+						console.log(socket.id);
+						console.log(user.socket);
+					});
+				}
 			}
 		});
 	});
