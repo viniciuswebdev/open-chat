@@ -21,12 +21,12 @@ function connectUser(){
 
 socket.on('addUserList', function(data) {
 	data.forEach(function(data){
-		addUser(data.socket, data.socket);
+		addUser(data.name, data.socket);
 	});
 });
 
 socket.on('addNewUser', function(data) {
-	addUser(data.socket, data.socket);
+	addUser(data.name, data.socket);
 });
 
 socket.on('deleteUser', function(socket) {
@@ -35,7 +35,7 @@ socket.on('deleteUser', function(socket) {
 
 
 function addUser(user, socket) {
-	$("#contact-list").append('<h4 id="' + socket +'">' + user + '</h4>');
+	$("#contact-list").append('<h4 id="' + socket +'">' + user + '</h4>').fadeIn(999);
 }
 
 function deleteUser(socket) {
