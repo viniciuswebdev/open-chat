@@ -55,11 +55,6 @@ socket.on('user', function(data) {
 	addUser(data);
 });
 
-socket.on('adduser', function(data) {
-	addUser(data);
-});
-
-
 socket.on('message', function(data) {
 	addMessage(data['message'], data['pseudo']);
 });
