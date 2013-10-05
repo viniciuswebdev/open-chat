@@ -19,12 +19,6 @@ User.prototype.insertUser = function(socket, session, callback){
 	});
 };
 
-User.prototype.deleteUser = function(socket){
-	User.find({socket : socket}, function(err, reg){
-		reg[0].remove();
-	});
-}
-
 User.prototype.getUser = function(session, callback){
 	User.find({session : session}, function(err, reg){
 		callback(reg[0]);
