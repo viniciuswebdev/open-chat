@@ -10,6 +10,7 @@ $(function() {
 			sendMessage();
 		}
 	});
+	
 });
 
 function connectUser(){
