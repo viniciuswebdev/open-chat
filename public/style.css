@@ -91,6 +91,12 @@ p{
 	border-radius: 5px;
 }
 
+.container .content .chat .contact-list .userme{
+	border: 1px solid #9073c0;
+	margin: 5px 10px 0px 5px;
+	border-radius: 5px;
+}
+
 .container .content .chat .entries{
 	height: 400px;
 	width: 80%;

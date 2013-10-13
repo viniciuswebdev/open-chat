@@ -21,8 +21,10 @@ socket.on('addUserList', function(data) {
 	data.users.forEach(function(user){
 		if(user.socket == data.socket){
 			UserName = user.name;
+			addUser(user.name, user.socket, true);
+		}else{
+			addUser(user.name, user.socket, false);
 		}
-		addUser(user.name, user.socket);
 	});
 });
 
@@ -38,8 +40,9 @@ socket.on('message', function(data) {
 	addMessage(data['message'], data['name'], false);
 });
 
-function addUser(user, socket) {
-	$('<div id="' + socket +'" class="user"><h4>' + user + '</h4></div>').appendTo("#contact-list").hide().fadeIn(1000);
+function addUser(user, socket, me) {	
+	selfUserClass = (me) ? "me" : "";
+	$('<div id="' + socket +'" class="user' + selfUserClass + '"><h4>' + user + '</h4></div>').appendTo("#contact-list").hide().fadeIn(1000);
 }
 
 function deleteUser(socket) {
