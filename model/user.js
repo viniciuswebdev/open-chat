@@ -15,6 +15,7 @@ User.prototype.insertUser = function(socket, session, callback){
 	user.name = "User" + Math.floor((Math.random()*100)+1);
 	user.status = "in";
 	user.save(function(){
+		console.log("SAVED")
 		callback(user);
 	});
 };
