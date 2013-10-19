@@ -2,6 +2,26 @@ var socket = io.connect();
 var UserName;
 
 $(function() {
+	$(document).on('click','.userme', function(){
+		$(".userme").popover(); 
+	});
+	$(document).on('keypress','#userChangeName', function(e){
+		var code = (e.keyCode ? e.keyCode : e.which);
+		if(code == 13) {
+			$(".userme").popover('hide');
+			var userName = $('#userChangeName').val();
+			UserName = userName;
+			$("#userNameSet").html(UserName);
+			socket.emit('changeUserName', UserName);
+		}
+	});
+	$("body").on("elementCreated", function(event){
+    	$(".userme").popover({
+			html:true,
+		 	content: $("#userSettings").html(),
+			title: "Settings"
+		});
+    });
 	connectUser();
 	$("#messageInput").keypress(function(e) {
 		var code = (e.keyCode ? e.keyCode : e.which);
@@ -10,7 +30,6 @@ $(function() {
 			sendMessage();
 		}
 	});
-	
 });
 
 function connectUser(){
@@ -21,15 +40,19 @@ socket.on('addUserList', function(data) {
 	data.users.forEach(function(user){
 		if(user.socket == data.socket){
 			UserName = user.name;
-			addUser(user.name, user.socket, true);
+			addSelfUser(user.name, user.socket);
 		}else{
-			addUser(user.name, user.socket, false);
+			addUser(user.name, user.socket);
 		}
 	});
 });
 
 socket.on('addNewUser', function(data) {
 	addUser(data.name, data.socket);
+});
+
+socket.on('changeUserName', function(data) {
+	$("#" + data.socket).html('<h5 id="userNameSet" class="bold">' + data.name + '</h5>');
 });
 
 socket.on('deleteUser', function(socket) {
@@ -40,9 +63,13 @@ socket.on('message', function(data) {
 	addMessage(data['message'], data['name'], false);
 });
 
-function addUser(user, socket, me) {	
-	selfUserClass = (me) ? "me" : "";
-	$('<div id="' + socket +'" class="user' + selfUserClass + '"><h4>' + user + '</h4></div>').appendTo("#contact-list").hide().fadeIn(1000);
+function addSelfUser(user, socket) {
+	$('<div id="' + socket +'" class="userme"><h5 id="userNameSet" class="bold">' + user + '</h5><div class="settings"></div></div>').prependTo("#contact-list").hide().fadeIn(1000);
+	$( 'body' ).trigger( 'elementCreated' );
+}
+
+function addUser(user, socket) {	
+	$('<div id="' + socket +'" class="user"><h5 class="bold">' + user + '</h5></div>').appendTo("#contact-list").hide().fadeIn(1000);
 }
 
 function deleteUser(socket) {
