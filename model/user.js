@@ -36,6 +36,16 @@ User.prototype.updateUserSocket = function(socket, session, callback){
 	});
 }
 
+User.prototype.updateUserName = function(session, name, callback){
+	User.find({session : session}, function(err, reg){
+		var user = reg[0];
+		user.name = name;
+		user.save(function(){
+			callback(user);
+		});
+	});
+}
+
 User.prototype.updateToOut = function(session){
 	User.find({session : session}, function(err, reg){
 		var user = reg[0];

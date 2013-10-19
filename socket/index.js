@@ -39,6 +39,12 @@ exports.connection = function (socket) {
 			socket.broadcast.emit('message', data);
 		});
 	});
+	socket.on('changeUserName', function (message) {
+		socket.set('name', message);
+		userModel.updateUserName(socket.handshake.sessionId, message, function(data){
+			socket.broadcast.emit('changeUserName', data);
+		});
+	});
 };
 
 exports.authorization = function(handshake, callback) {
