@@ -1,27 +1,11 @@
 var socket = io.connect();
 var UserName;
 
+
 $(function() {
-	$(document).on('click','.userme', function(){
-		$(".userme").popover(); 
-	});
-	$(document).on('keypress','#userChangeName', function(e){
-		var code = (e.keyCode ? e.keyCode : e.which);
-		if(code == 13) {
-			$(".userme").popover('hide');
-			var userName = $('#userChangeName').val();
-			UserName = userName;
-			$("#userNameSet").html(UserName);
-			socket.emit('changeUserName', UserName);
-		}
-	});
-	$("body").on("elementCreated", function(event){
-    	$(".userme").popover({
-			html:true,
-		 	content: $("#userSettings").html(),
-			title: "Settings"
-		});
-    });
+
+	Users.init();
+
 	connectUser();
 	$("#messageInput").keypress(function(e) {
 		var code = (e.keyCode ? e.keyCode : e.which);
@@ -40,15 +24,15 @@ socket.on('addUserList', function(data) {
 	data.users.forEach(function(user){
 		if(user.socket == data.socket){
 			UserName = user.name;
-			addSelfUser(user.name, user.socket);
+			Users.addSelfUser(user.name, user.socket);
 		}else{
-			addUser(user.name, user.socket);
+			Users.addUser(user.name, user.socket);
 		}
 	});
 });
 
 socket.on('addNewUser', function(data) {
-	addUser(data.name, data.socket);
+	Users.addUser(data.name, data.socket);
 });
 
 socket.on('changeUserName', function(data) {
@@ -56,27 +40,13 @@ socket.on('changeUserName', function(data) {
 });
 
 socket.on('deleteUser', function(socket) {
-	deleteUser(socket);
+	Users.deleteUser(socket);
 });
 
 socket.on('message', function(data) {
 	addMessage(data['message'], data['name'], false);
 });
 
-function addSelfUser(user, socket) {
-	$('<div id="' + socket +'" class="userme"><h5 id="userNameSet" class="bold">' + user + '</h5><div class="settings"></div></div>').prependTo("#contact-list").hide().fadeIn(1000);
-	$( 'body' ).trigger( 'elementCreated' );
-}
-
-function addUser(user, socket) {	
-	$('<div id="' + socket +'" class="user"><h5 class="bold">' + user + '</h5></div>').appendTo("#contact-list").hide().fadeIn(1000);
-}
-
-function deleteUser(socket) {
-    $("#" + socket).fadeOut(1000, function() { 
-    	$(this).remove(); 
-    });
-}
 
 function addMessage(msg, pseudo, self) {
 	var entries = $("#entries");
