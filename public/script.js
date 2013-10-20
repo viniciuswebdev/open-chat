@@ -5,15 +5,9 @@ var UserName;
 $(function() {
 
 	Users.init();
-
+	Messages.init();
 	connectUser();
-	$("#messageInput").keypress(function(e) {
-		var code = (e.keyCode ? e.keyCode : e.which);
-		if(code == 13) {
-			e.preventDefault()
-			sendMessage();
-		}
-	});
+	
 });
 
 function connectUser(){
@@ -44,22 +38,5 @@ socket.on('deleteUser', function(socket) {
 });
 
 socket.on('message', function(data) {
-	addMessage(data['message'], data['name'], false);
+	Messages.addMessage(data['message'], data['name'], false);
 });
-
-
-function addMessage(msg, pseudo, self) {
-	var entries = $("#entries");
-	selfStyle = (self) ? 'self' : '';
-	entries.append('<div class="message ' + selfStyle + '">' + '<p class="text">'  + pseudo + ' : ' + msg + '</p></div>');
-	entries.scrollTop(entries[0].scrollHeight);
-}
-
-function sendMessage() {
-	var messageInput = $('#messageInput');
-	if (messageInput.val() != ""){
-		socket.emit('message', messageInput.val());
-		addMessage(messageInput.val(), UserName, true);
-		messageInput.val('');
-	}
-}
