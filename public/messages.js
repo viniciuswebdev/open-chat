@@ -35,7 +35,7 @@ Messages = {
 	sendMessage: function (message) {
 		var messageInput = message;
 		if (messageInput.val() != ""){
-			socket.emit('message', messageInput.val());
+			Socket.sendMessage(messageInput.val());
 			Messages.addMessage(messageInput.val(), Users.getUserName(), true);
 			messageInput.val('');
 		}
