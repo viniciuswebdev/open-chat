@@ -24,7 +24,7 @@ Users = {
 				$(".userme").popover('hide');
 				Users.setUserName($('#userChangeName').val());
 				$("#userNameSet").html(Users.getUserName());
-				socket.emit('changeUserName', Users.getUserName());
+				Socket.changeUserName(Users.getUserName());
 			}
 		});
 	},
