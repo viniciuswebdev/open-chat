@@ -1,6 +1,7 @@
 Users = {
 
 	userList : {},
+	userName: {},
 
 	listenUserSettings: function() {
 		$(document).on('click','.userme', function(){
@@ -8,15 +9,22 @@ Users = {
 		});
 	},
 
+	setUserName: function (userName) {
+		this.userName = userName;
+	},
+
+	getUserName: function () {
+		return this.userName;
+	},
+
 	listenUserChangeName: function() {
 		$(document).on('keypress','#userChangeName', function(e){
 			var code = (e.keyCode ? e.keyCode : e.which);
 			if(code == 13) {
 				$(".userme").popover('hide');
-				var userName = $('#userChangeName').val();
-				UserName = userName;
-				$("#userNameSet").html(UserName);
-				socket.emit('changeUserName', UserName);
+				Users.setUserName($('#userChangeName').val());
+				$("#userNameSet").html(Users.getUserName());
+				socket.emit('changeUserName', Users.getUserName());
 			}
 		});
 	},
