@@ -36,7 +36,7 @@ Messages = {
 		var messageInput = message;
 		if (messageInput.val() != ""){
 			socket.emit('message', messageInput.val());
-			Messages.addMessage(messageInput.val(), UserName, true);
+			Messages.addMessage(messageInput.val(), Users.getUserName(), true);
 			messageInput.val('');
 		}
 	},

@@ -1,6 +1,4 @@
 var socket = io.connect();
-var UserName;
-
 
 $(function() {
 
@@ -17,7 +15,7 @@ function connectUser(){
 socket.on('addUserList', function(data) {
 	data.users.forEach(function(user){
 		if(user.socket == data.socket){
-			UserName = user.name;
+			Users.setUserName(user.name);
 			Users.addSelfUser(user.name, user.socket);
 		}else{
 			Users.addUser(user.name, user.socket);
