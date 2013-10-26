@@ -2,6 +2,9 @@ $(function() {
 
 	Users = new Users;
 	Users.init();
-	Messages.init();
+
+	Socket = new Socket;
 	Socket.init();
+
+	Messages.init();
 });
