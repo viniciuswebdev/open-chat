@@ -6,5 +6,7 @@ $(function() {
 	Socket = new Socket;
 	Socket.init();
 
+	Messages = new Messages();
 	Messages.init();
+	
 });
