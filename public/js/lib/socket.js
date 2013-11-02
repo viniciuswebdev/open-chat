@@ -47,6 +47,23 @@ function Socket () {
 		this.socket.emit('changeUserName', userName);
 	};
 
+	this.askMessageListener = function () {
+		this.socket.on('askMessages', function(socket) {
+			data = {};
+			data.socket = socket;
+			data.messages = Storage.getItem('messages');
+			this.emit('giveMessages', data);
+		});	
+	}
+
+	this.getMessageListener = function () {
+		this.socket.on('giveMessages', function(messages) {
+			for(i in messages){
+				Messages.addMessage(messages[i].name, messages[i].message);
+			}
+		});	
+	}
+
 	this.init = function() {
 		this.socket = io.connect();
 		this.socket.emit('connect');
@@ -56,6 +73,8 @@ function Socket () {
 		this.changeUserNameListener();
 		this.deleteUserListener();
 		this.messageListener();
+		this.askMessageListener();
+		this.getMessageListener();
 	};
 
 };

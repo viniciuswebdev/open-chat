@@ -28,6 +28,7 @@ function Messages () {
 
 	this.addMessage = function (message, userName, self) {
 		var entries = $("#entries");
+		this.storeMessage(message, userName);
 		entries.append(this.createMessageDom(message, userName, self));
 		entries.scrollTop(entries[0].scrollHeight);
 	};
@@ -41,8 +42,20 @@ function Messages () {
 		}
 	};
 
+	this.storeMessage = function (name, message) {
+		var store = {};
+		store["name"] = name;
+		store["message"] = message;
+		Storage.pushArray('messages', store);
+	},
+
+	this.createMessagesStorage = function () {
+		Storage.setItem('messages', new Array());
+	},
+
 	this.init = function(){
 		this.sendMessageListener();
+		this.createMessagesStorage();
 	};
 
 };

@@ -1,5 +1,7 @@
 $(function() {
 
+	Storage = SimpleStorage;
+
 	Users = new Users;
 	Users.init();
 
