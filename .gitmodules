@@ -1,0 +1,3 @@
+[submodule "public/js/js-async-storage"]
+	path = public/js/js-async-storage
+	url = git@github.com:viniciuswebdev/js-async-storage.git
