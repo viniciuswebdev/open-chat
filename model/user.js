@@ -20,6 +20,12 @@ User.prototype.insertUser = function(socket, session, callback){
 	});
 };
 
+User.prototype.getOldestUser = function (callback) {
+	User.findOne({}, {}, { sort: { 'created_at' : -1 } }, function(err, reg) {
+		callback(reg);
+	});
+}
+
 User.prototype.getUser = function(session, callback){
 	User.find({session : session}, function(err, reg){
 		callback(reg[0]);
