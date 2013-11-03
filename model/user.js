@@ -3,8 +3,13 @@ var mongoose = require('mongoose'),
 	
 mongoose.connect("mongodb://localhost/chat");
 var ObjectId = Schema.ObjectId;
-var UsersSchema = new Schema({ ref:ObjectId, name:String, socket:String, session:String, status:String });
+var UsersSchema = new Schema({ ref:ObjectId, updated_at:Date, name:String, socket:String, session:String, status:String });
 var User = mongoose.model("User", UsersSchema);
+
+UsersSchema.pre('save', function(next){
+  this.updated_at = new Date;
+  next();
+});
 
 module.exports = User;
 
@@ -19,6 +24,12 @@ User.prototype.insertUser = function(socket, session, callback){
 		callback(user);
 	});
 };
+
+User.prototype.getOldestUser = function (callback) {
+	User.findOne({}, {}, { sort: { 'updated_at' : 1 } }, function(err, reg) {
+		callback(reg);
+	});
+}
 
 User.prototype.getUser = function(session, callback){
 	User.find({session : session}, function(err, reg){
