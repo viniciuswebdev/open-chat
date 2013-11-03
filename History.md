@@ -1,4 +1,4 @@
-1.1.0 / 2013-10-04
+1.1.0 / 2013-11-02
 ==================
 
 * Implement p2p and localstorage to store message history
