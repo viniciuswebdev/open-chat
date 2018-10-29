@@ -1,7 +1,7 @@
-exports.index = function(req, resp){
-	resp.redirect('/room')		
+exports.index = function(req, resp) { 
+  resp.redirect('/room')		
 };
 
-exports.chat = function(req, resp){
-	resp.render('chat.ejs')
+exports.chat = function(req, resp) {
+  resp.render('chat.ejs')
 };
