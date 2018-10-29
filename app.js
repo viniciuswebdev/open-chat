@@ -1,5 +1,5 @@
 var ejs = require('ejs'),
-	express = require('express'),
+  express = require('express'),
   app = express(),
   http = require('http'),
   server = http.createServer(app).listen(process.env.PORT || process.argv[2]),
@@ -87,7 +87,3 @@ function giveMessages(socket, messages) {
   console.log('s');
   io.sockets.socket(socket).emit("giveMessages", messages);
 }
-
-
-
-
